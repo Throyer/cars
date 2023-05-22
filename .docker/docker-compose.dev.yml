@@ -1,0 +1,67 @@
+version: '3'
+services:
+
+  database:
+    image: postgres:13
+    restart: unless-stopped
+    container_name: cars-database
+    command:
+      [
+        "postgres",
+        "-c",
+        "log_statement=all",
+        "-c",
+        "log_destination=stderr",
+        "-p",
+        "${DB_PORT}"
+      ]
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      TZ: ${TIMEZONE}
+      PGTZ: ${TIMEZONE}
+    volumes:
+      - ~/.volumes/cars/database/postgresql:/var/lib/postgresql/data
+    networks:
+      - cars-network
+    tty: true
+
+  brinquedoteca:
+    build:
+      context: ../server
+      dockerfile: ../.docker/Dockerfile.dev
+    image: throyer/cars-api-development:latest
+    container_name: cars-api
+    links:
+      - database
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+      - "${SERVER_DEBUG_PORT}:${SERVER_DEBUG_PORT}"
+    volumes:
+      - ../server:/app
+      - ~/.m2/repository:/root/.m2/repository
+    working_dir: /app
+    networks:
+      - cars-network
+    tty: true
+    environment:
+      TZ: "${TIMEZONE}"
+    env_file: ".env"
+    entrypoint: [
+      "dockerize",
+      "-wait",
+      "tcp://database:${DB_PORT}",
+      "-timeout",
+      "20s",
+      'mvn',
+      'spring-boot:run',
+      '-Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,address=*:${SERVER_DEBUG_PORT},suspend=n"'
+    ]
+
+networks:
+  cars-network:
+    driver: bridge
+    name: cars
