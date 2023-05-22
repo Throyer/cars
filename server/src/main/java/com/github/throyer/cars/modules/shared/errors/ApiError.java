@@ -3,11 +3,10 @@ package com.github.throyer.cars.modules.shared.errors;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
-import org.springframework.http.HttpStatusCode;
 
 @Getter
 public class ApiError {
