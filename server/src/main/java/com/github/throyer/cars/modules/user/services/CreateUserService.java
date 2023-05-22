@@ -21,8 +21,16 @@ public class CreateUserService {
     }
     
     var roles = roleRepository.findByNameIn(data.getRoles());
-    var user = User.create(data, roles);
+    
+    var user = new User(
+      data.getName(),
+      data.getEmail(),
+      data.getPassword(),
+      roles
+    );
+    
     userRepository.save(user);
+    
     return user;
   }
 }

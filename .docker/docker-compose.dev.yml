@@ -29,7 +29,7 @@ services:
       - cars-network
     tty: true
 
-  brinquedoteca:
+  api:
     build:
       context: ../server
       dockerfile: ../.docker/Dockerfile.dev

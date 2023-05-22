@@ -40,14 +40,10 @@ public class User extends BaseEntity {
     inverseJoinColumns = {@JoinColumn(name = "role_id")})
   private List<Role> roles;
 
-  public static User create(CreateUserData data, List<Role> roles) {
-    var user = new User();
-    
-    user.setName(data.getName());
-    user.setEmail(data.getEmail());
-    user.setPassword(encode(data.getPassword()));
-        
-    user.setRoles(roles);
-    return user;
+  public User(String name, String email, String password, List<Role> roles) {
+    this.name = name;
+    this.email = email;
+    this.password = encode(password);
+    this.roles = roles;
   }
 }
