@@ -1,6 +1,5 @@
 package com.github.throyer.cars.modules.user.services;
 
-import com.github.throyer.cars.modules.role.model.Role;
 import com.github.throyer.cars.modules.role.repositories.RoleRepository;
 import com.github.throyer.cars.modules.user.dtos.CreateUserData;
 import com.github.throyer.cars.modules.user.models.User;
@@ -13,6 +12,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+import static com.github.throyer.cars.modules.role.fixtures.RoleFixture.roles;
+import static com.github.throyer.cars.modules.shared.utils.Random.element;
 import static com.github.throyer.cars.modules.user.fixtures.UserFixture.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -32,23 +33,25 @@ class CreateUserServiceTest {
     
   @Test
   void must_create_user_successfully() {
-    var roleName = "USER";
+    var role = element(roles());
+    var id = id();
+    var name = name();
+    var email = email();
+    var password = password();
     
     var no = false;
     
     var data = new CreateUserData(
-      NAME,
-      EMAIL,
-      PASSWORD,
-      List.of(roleName)
+      name,
+      email,
+      password,
+      List.of(role.getName())
     );    
     
-    var roles = List.of(new Role(roleName));
-    
-    var user = user(roles);
+    var user = user(id, name, email, password, List.of(role));
     
     when(userRepository.existsByEmail(anyString())).thenReturn(no);
-    when(roleRepository.findByNameIn(anyList())).thenReturn(roles);
+    when(roleRepository.findByNameIn(anyList())).thenReturn(List.of(role));
     when(userRepository.save(any(User.class))).thenReturn(user);
 
     assertDoesNotThrow(() -> service.create(data));
@@ -56,17 +59,20 @@ class CreateUserServiceTest {
 
   @Test
   void cannot_create_user_when_email_has_already_used() {
-    var roleName = "USER";
+    var role = element(roles());
+    var name = name();
+    var email = email();
+    var password = password();
     
     var yes = true;
-    
+
     var data = new CreateUserData(
-      NAME,
-      EMAIL,
-      PASSWORD,
-      List.of(roleName)
+      name,
+      email,
+      password,
+      List.of(role.getName())
     );
-    
+                              
     when(userRepository.existsByEmail(anyString())).thenReturn(yes);
 
     var exception = assertThrowsExactly(ResponseStatusException.class, () -> service.create(data));

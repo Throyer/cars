@@ -10,6 +10,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+import static com.github.throyer.cars.modules.role.fixtures.RoleFixture.roles;
+import static com.github.throyer.cars.modules.shared.utils.Random.element;
 import static com.github.throyer.cars.modules.user.fixtures.UserFixture.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -26,11 +28,16 @@ public class CreateUserControllerTest {
 
   @Test
   void must_create_user_successfully() {
+    var role = element(roles());
+    var name = name();
+    var email = email();
+    var password = password();
+
     var data = new CreateUserData(
-      NAME,
-      EMAIL,
-      PASSWORD,
-      List.of()
+      name,
+      email,
+      password,
+      List.of(role.getName())
     );
     
     when(service.create(any(CreateUserData.class))).thenReturn(user());
@@ -41,10 +48,10 @@ public class CreateUserControllerTest {
   @Test
   void cannot_create_user_when_email_has_already_used() {
     var data = new CreateUserData(
-      NAME,
-      EMAIL,
-      PASSWORD,
-      List.of("USER")
+      name(),
+      email(),
+      password(),
+      List.of(element(roles()).getName())
     );
     
     when(service.create(any(CreateUserData.class))).thenThrow(new ResponseStatusException(CONFLICT));
