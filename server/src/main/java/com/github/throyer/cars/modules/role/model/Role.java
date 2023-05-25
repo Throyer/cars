@@ -1,7 +1,9 @@
 package com.github.throyer.cars.modules.role.model;
 
+import com.github.throyer.cars.modules.shared.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -11,7 +13,8 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Setter
 @Entity(name = "role")
 @Table(name = "role")
-public class Role implements GrantedAuthority {
+@NoArgsConstructor
+public class Role extends BaseEntity implements GrantedAuthority {
   @Id
   @GeneratedValue(strategy = IDENTITY)
   private Long id;
@@ -22,5 +25,9 @@ public class Role implements GrantedAuthority {
   @Override
   public String getAuthority() {
     return this.name;
+  }
+
+  public Role(String name) {
+    this.name = name;
   }
 }
