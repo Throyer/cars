@@ -1,16 +1,17 @@
 package com.github.throyer.cars.modules.user.services;
 
-import com.github.throyer.cars.modules.infra.constants.LoggingConstants;
+import static com.github.throyer.cars.modules.infra.constants.LoggingConstants.SIMPLE_LOGGING;
+import static com.github.throyer.cars.modules.infra.http.Responses.conflict;
+
+import org.springframework.stereotype.Service;
+
 import com.github.throyer.cars.modules.role.repositories.RoleRepository;
 import com.github.throyer.cars.modules.user.dtos.CreateUserData;
 import com.github.throyer.cars.modules.user.models.User;
 import com.github.throyer.cars.modules.user.repositories.UserRepository;
+
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-import static com.github.throyer.cars.modules.infra.constants.LoggingConstants.SIMPLE_LOGGING;
-import static com.github.throyer.cars.modules.infra.http.Responses.conflict;
 
 @Slf4j
 @Service

@@ -1,20 +1,19 @@
 package com.github.throyer.cars.modules.user.services;
 
-import com.github.throyer.cars.modules.pagination.Page;
-import com.github.throyer.cars.modules.user.repositories.UserRepository;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-
 import static com.github.throyer.cars.modules.user.fixtures.UserFixture.users;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
+
+import com.github.throyer.cars.modules.pagination.Page;
+import com.github.throyer.cars.modules.user.repositories.UserRepository;
 
 @SpringBootTest
 public class FindAllUsersServiceTest {

@@ -1,19 +1,22 @@
 package com.github.throyer.cars.modules.infra.middlewares;
 
-import io.micrometer.tracing.Tracer;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
-
-import io.micrometer.tracing.CurrentTraceContext;
-import jakarta.servlet.*;
-import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
-import java.util.Objects;
-
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.of;
+
+import java.io.IOException;
+
+import org.springframework.stereotype.Component;
+
+import io.micrometer.tracing.CurrentTraceContext;
+import io.micrometer.tracing.Tracer;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor

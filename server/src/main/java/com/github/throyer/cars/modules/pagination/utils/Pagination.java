@@ -1,17 +1,14 @@
 package com.github.throyer.cars.modules.pagination.utils;
 
-import com.github.throyer.cars.modules.infra.constants.LoggingConstants;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
-
-import java.util.Objects;
-import java.util.Optional;
-
-import org.springframework.data.domain.Pageable;
-
 import static com.github.throyer.cars.modules.infra.constants.LoggingConstants.SIMPLE_LOGGING;
 import static java.lang.String.format;
-import static java.util.Objects.isNull;
+
+import java.util.Optional;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Pagination {
