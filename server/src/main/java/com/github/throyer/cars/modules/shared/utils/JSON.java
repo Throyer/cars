@@ -8,7 +8,7 @@ public class JSON {
 
   private JSON() { }
 
-  private static final ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
+  private static final ObjectWriter writer = new ObjectMapper().writer();
 
   public static <T> String stringify(final T object) {
     try {

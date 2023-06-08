@@ -1,14 +1,18 @@
 package com.github.throyer.cars.modules.user.services;
 
+import com.github.throyer.cars.modules.infra.constants.LoggingConstants;
 import com.github.throyer.cars.modules.role.repositories.RoleRepository;
 import com.github.throyer.cars.modules.user.dtos.CreateUserData;
 import com.github.throyer.cars.modules.user.models.User;
 import com.github.throyer.cars.modules.user.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import static com.github.throyer.cars.modules.infra.constants.LoggingConstants.SIMPLE_LOGGING;
 import static com.github.throyer.cars.modules.infra.http.Responses.conflict;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class CreateUserService {
@@ -17,7 +21,8 @@ public class CreateUserService {
   
   public User create(CreateUserData data) {
     if (userRepository.existsByEmail(data.getEmail())) {
-      throw conflict("email already used");
+      log.warn(SIMPLE_LOGGING, "could not create user, email already used.");
+      throw conflict("email already used.");
     }
     
     var roles = roleRepository.findByNameIn(data.getRoles());
@@ -30,6 +35,8 @@ public class CreateUserService {
     );
     
     userRepository.save(user);
+
+    log.info(SIMPLE_LOGGING, "new user successfully created.");
     
     return user;
   }

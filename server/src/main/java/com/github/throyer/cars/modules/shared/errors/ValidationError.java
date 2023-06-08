@@ -1,19 +1,24 @@
 package com.github.throyer.cars.modules.shared.errors;
 
-import java.util.List;
-
-import org.springframework.web.bind.MethodArgumentNotValidException;
-
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+
+import java.util.List;
+
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
+import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.NOT_REQUIRED;
+import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 
 @Getter
 public class ValidationError {
 
-  @Schema(example = "genericFieldName")
+  @JsonInclude(NON_NULL)
+  @Schema(example = "genericFieldName", requiredMode = NOT_REQUIRED)
   private final String field;
 
-  @Schema(example = "generic error message", required = true)
+  @Schema(example = "generic error message", requiredMode = REQUIRED)
   private final String message;
 
   public ValidationError(String message) {

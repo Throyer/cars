@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class CreateUserData {
-  @Schema(example = "fulano")
+  @Schema(example = "fulano da silva")
   @NotEmpty(message = "name is a required field")
   private String name;
 
@@ -27,7 +27,7 @@ public class CreateUserData {
   @Size(min = 8, max = 100)
   private String password;
 
-  @Schema(example = "[\"USER\"]")
+  @Schema(example = "[\"USER\", \"ADM\"]")
   @NotEmpty(message = "roles cannot be empty")
   private List<String> roles;
 
